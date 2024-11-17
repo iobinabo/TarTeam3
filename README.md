@@ -1,0 +1,1 @@
+Code for the different steps to get the TAR Team 3 Drone to search for a red box, detect the color, stop searching, and then go 5ft from the color and remain there for 30 seconds before searching for a new color. 
