@@ -252,6 +252,17 @@ TARGET_LAT = -22 # Target latitude
 TARGET_LON = -43  # Target longitude
 TARGET_ALT = 1.5 # Target altitude in meters'
 
+async def attempt_arm(drone, retries=3):
+    for attempt in range(retries):
+        try:
+            await drone.action.arm()
+            print("Drone armed successfully.")
+            return
+        except mavsdk.action.ActionError as e:
+            print(f"Attempt {attempt + 1} failed: {e}")
+            await asyncio.sleep(1)
+    print("Failed to arm after multiple attempts.")
+
 async def main():
     print("Connecting to drone...")
     drone = System()
@@ -262,9 +273,11 @@ async def main():
         if state.is_connected:
             print("-- Connected to drone!")
             break
+    import asyncio
 
     print("-- Arming")
-    await drone.action.arm()
+    await attempt_arm(drone)
+    #await drone.action.arm()
 
     print("-- Taking off")
     await drone.action.takeoff()
