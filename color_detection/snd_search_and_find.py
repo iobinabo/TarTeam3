@@ -1,5 +1,3 @@
-#reagandronefile1
-
 # install mavsdk, pygame, and gstreamer
 
 import asyncio
@@ -86,7 +84,7 @@ class Video():
 
 
 # Initialize desired stable altitude at a specific level
-target_altitude = 2.0 #5 feet
+target_altitude = 2.0
 
 def maintain_altitude(drone, current_altitude, new_target_altitude):
     if current_altitude < new_target_altitude - 0.3:  # Drone is below target
@@ -181,7 +179,6 @@ async def main():
                 forward_threshold_high = 0.05 * frame.shape[0] * frame.shape[1]  # Upper boundary of lateral alignment
                 yaw_alignment_threshold = frame.shape[1] // 20  # Pixel threshold for acceptable yaw alignment
 
-
                 # Adjust yaw
                 if abs(x - screen_center_x) > yaw_alignment_threshold:
                     yaw_speed = -5 if x < screen_center_x else 5
@@ -204,10 +201,11 @@ async def main():
                         forward = -0.4
                     else:
                         forward = 0  # Acceptable, maintain position
+                        await asyncio.sleep(10) #wait, the "shoot" should occur in this time
+                        
 
             else:
                 # Rotate if no red box is detected
-                print("-- no box detected")
                 yaw_speed = 30
                 forward = 0
                 right = 0
@@ -225,11 +223,9 @@ async def main():
             break
 
         await asyncio.sleep(0.1)
-        
 
     # Cleanup
     cv2.destroyAllWindows()
-   
 
 
 if __name__ == "__main__":
