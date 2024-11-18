@@ -24,7 +24,7 @@ async def main():
     print("Taking off!")
     await drone.action.takeoff()
 
-    await asyncio.sleep(20) # wait a while
+    await asyncio.sleep(10) # wait a while
     
     print("Landing!")
     await drone.action.land() # finally, land the drone
